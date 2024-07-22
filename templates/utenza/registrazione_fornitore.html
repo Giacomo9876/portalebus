@@ -1,0 +1,8 @@
+<!-- templates/utenza/registrazione_fornitore.html -->
+{% extends 'base.html' %} {% block content %}
+<h2>Registrazione Fornitore</h2>
+<form method="post">
+    {% csrf_token %} {{ form.as_p }}
+    <button type="submit">Registrati</button>
+</form>
+{% endblock %}

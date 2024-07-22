@@ -1,0 +1,15 @@
+{% extends 'base.html' %} {% block title %}Login - Portale Prenotazioni Pullman{% endblock %} {% block content %}
+<h2>Login</h2>
+<form method="post">
+    {% csrf_token %}
+    <div>
+        <label for="email">Email:</label>
+        <input type="email" name="email" required>
+    </div>
+    <div>
+        <label for="password">Password:</label>
+        <input type="password" name="password" required>
+    </div>
+    <button type="submit" class="btn">Login</button>
+</form>
+{% endblock %}

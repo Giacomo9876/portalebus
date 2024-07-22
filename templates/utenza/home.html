@@ -1,0 +1,21 @@
+{% extends 'base.html' %} {% block title %}Home - Portale Prenotazioni Pullman{% endblock %} {% block content %}
+<h1>Benvenuti nel Portale Prenotazioni Pullman</h1>
+<p>Qui potete prenotare il vostro pullman privato e recensire i fornitori.</p>
+
+<div class="features">
+    <div class="feature">
+        <h2>Prenotazione Facile</h2>
+        <p>Prenotate il vostro pullman con pochi click.</p>
+    </div>
+    <div class="feature">
+        <h2>Recensioni Affidabili</h2>
+        <p>Leggete e lasciate recensioni sui fornitori.</p>
+    </div>
+    <div class="feature">
+        <h2>Ampia Scelta</h2>
+        <p>Trovate il pullman perfetto per le vostre esigenze.</p>
+    </div>
+</div>
+
+<a href="{% url 'registrazione_utente' %}" class="btn">Registrati come Utente</a>
+<a href="{% url 'registrazione_fornitore' %}" class="btn">Registrati come Fornitore</a> {% endblock %}

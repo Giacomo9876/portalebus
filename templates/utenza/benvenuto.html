@@ -1,0 +1,65 @@
+{% extends 'base.html' %} {% block title %}Benvenuto - Portale Prenotazioni Pullman{% endblock %} {% block content %}
+<div class="welcome-container">
+    <div class="route-search">
+        <h2>Cerca Percorso</h2>
+        <form method="post" action="{% url 'calcola_percorso' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="partenza">Luogo di Partenza:</label>
+                <input type="text" id="partenza" name="partenza" required>
+            </div>
+            <div class="form-group">
+                <label for="destinazione">Destinazione:</label>
+                <input type="text" id="destinazione" name="destinazione" required>
+            </div>
+            <button type="submit" class="btn">Calcola Percorso</button>
+        </form>
+    </div>
+
+    <div class="user-info">
+        <h2>Benvenuto, {{ user.nome }} {{ user.cognome }}!</h2>
+        <h3>Riepilogo dei tuoi dati:</h3>
+        <ul>
+            <li><strong>Nome:</strong> {{ user.nome }}</li>
+            <li><strong>Cognome:</strong> {{ user.cognome }}</li>
+            <li><strong>Email:</strong> {{ user.email }}</li>
+            <li><strong>Tipo di account:</strong> {% if user.ente_pubblico %}Ente Pubblico{% else %}Privato{% endif %}</li>
+            {% if user.azienda %}
+            <li><strong>Azienda:</strong> {{ user.azienda }}</li>
+            {% endif %}
+        </ul>
+    </div>
+</div>
+
+<div id="percorso-risultato"></div>
+{% block scripts %}
+<script>
+    document.querySelector('form').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        fetch("{% url 'calcola_percorso' %}", {
+                method: 'POST',
+                body: new FormData(this),
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                let risultatoDiv = document.getElementById('percorso-risultato');
+                if (data.error) {
+                    risultatoDiv.innerHTML = `<p class="error">${data.error}</p>`;
+                } else {
+                    risultatoDiv.innerHTML = `
+                <h3>Risultato del Percorso:</h3>
+                <p>Distanza: ${data.distance}</p>
+                <p>Durata stimata: ${data.duration}</p>
+            `;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    });
+</script>
+{% endblock %} {% endblock %}
